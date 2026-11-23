@@ -35,11 +35,11 @@ export default function ProductCard({
   };
 
   return (
-    <div className={`group bg-white rounded-3xl p-3.5 sm:p-4 border border-stone-200/90 hover:border-emerald-500/50 hover:shadow-xl hover:shadow-emerald-950/5 transition-all duration-200 flex flex-col justify-between relative ${
+    <div className={`group bg-white rounded-3xl p-3 sm:p-4 border border-stone-200/90 hover:border-emerald-500/50 hover:shadow-xl hover:shadow-emerald-950/5 transition-all duration-200 flex flex-col justify-between relative ${
       isOutOfStock ? 'opacity-65 grayscale-20' : ''
     }`}>
       {/* Top badges */}
-      <div className="absolute top-5 left-5 right-5 flex items-center justify-between pointer-events-none z-10">
+      <div className="absolute top-3.5 left-3.5 right-3.5 sm:top-5 sm:left-5 sm:right-5 flex items-center justify-between pointer-events-none z-10">
         {product.isPromo && (
           <span className="bg-amber-400 text-stone-900 font-black text-[10px] sm:text-xs px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md flex items-center gap-1">
             <Sparkles className="w-3 h-3 text-amber-900" />
@@ -93,13 +93,13 @@ export default function ProductCard({
       </div>
 
       {/* Price and Cart Controls */}
-      <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between gap-2">
-        <div>
-          <div className="flex items-baseline gap-1.5">
+      <div className="mt-3 pt-2.5 border-t border-stone-100 flex flex-col gap-2">
+        <div className="flex items-baseline justify-between">
+          <div className="flex items-baseline gap-1">
             <span className="text-base sm:text-lg font-black text-stone-900">
               ${currentPrice.toLocaleString('es-CO')}
             </span>
-            <span className="text-[10px] text-stone-400 font-medium">
+            <span className="text-[10px] text-stone-500 font-medium">
               /{product.unit}
             </span>
           </div>
@@ -110,25 +110,27 @@ export default function ProductCard({
           )}
         </div>
 
-        {/* Quantity Controls */}
+        {/* Quantity Controls - Clean, Full-width button with zero overflow */}
         <div>
           {isOutOfStock ? (
-            <span className="text-xs text-stone-400 font-medium">No disponible</span>
+            <div className="text-center py-1.5 text-xs text-stone-400 font-medium bg-stone-100 rounded-xl">
+              Agotado
+            </div>
           ) : quantityInCart > 0 ? (
-            <div className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-300 rounded-2xl p-1">
+            <div className="flex items-center justify-between bg-emerald-50 border border-emerald-300 rounded-xl p-1">
               <button
                 onClick={() => onUpdateQuantity(product.id, quantityInCart - 1)}
-                className="w-7 h-7 rounded-xl bg-white text-emerald-700 hover:bg-emerald-100 flex items-center justify-center font-bold text-sm shadow-xs transition active:scale-95 cursor-pointer"
+                className="w-7 h-7 rounded-lg bg-white text-emerald-700 hover:bg-emerald-100 flex items-center justify-center font-bold text-sm shadow-xs transition active:scale-95 cursor-pointer"
                 aria-label="Disminuir cantidad"
               >
                 <Minus className="w-3.5 h-3.5" />
               </button>
-              <span className="w-6 text-center text-xs font-bold text-emerald-950">
-                {quantityInCart}
+              <span className="text-xs font-bold text-emerald-950">
+                {quantityInCart} en canasta
               </span>
               <button
                 onClick={() => onUpdateQuantity(product.id, quantityInCart + 1)}
-                className="w-7 h-7 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 flex items-center justify-center font-bold text-sm shadow-xs transition active:scale-95 cursor-pointer"
+                className="w-7 h-7 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 flex items-center justify-center font-bold text-sm shadow-xs transition active:scale-95 cursor-pointer"
                 aria-label="Aumentar cantidad"
               >
                 <Plus className="w-3.5 h-3.5" />
@@ -137,10 +139,10 @@ export default function ProductCard({
           ) : (
             <button
               onClick={() => onAddToCart(product)}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2 rounded-2xl shadow-sm transition active:scale-95 flex items-center gap-1.5 cursor-pointer"
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2 px-2 rounded-xl shadow-xs transition active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer"
             >
-              <Plus className="w-4 h-4" />
-              <span>Llevar</span>
+              <Plus className="w-3.5 h-3.5" />
+              <span>Agregar a canasta</span>
             </button>
           )}
         </div>
