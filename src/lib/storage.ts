@@ -1,6 +1,6 @@
 'use client';
 
-import { Product, StoreConfig, StaffMember, InventoryEntry, Order, OrderStatus, CustomerData } from '@/types';
+import { Product, StoreConfig, StaffMember, InventoryEntry, Order, OrderStatus, CustomerData, CartItem } from '@/types';
 import { 
   INITIAL_PRODUCTS, 
   INITIAL_STORE_CONFIG, 
@@ -16,6 +16,7 @@ const KEYS = {
   INVENTORY: 'cosecha_luz_inventory',
   ORDERS: 'cosecha_luz_orders',
   CUSTOMER: 'cosecha_luz_customer',
+  CART: 'cosecha_luz_cart',
 };
 
 function safeGet<T>(key: string, fallback: T): T {
@@ -143,6 +144,25 @@ export const StorageService = {
   // Customer Remember
   getCustomer: (): Partial<CustomerData> | null => safeGet<Partial<CustomerData> | null>(KEYS.CUSTOMER, null),
   saveCustomer: (cust: Partial<CustomerData>) => safeSet(KEYS.CUSTOMER, cust),
+
+  // Cart Persistence
+  getCart: (): CartItem[] => safeGet<CartItem[]>(KEYS.CART, []),
+  saveCart: (cart: CartItem[]) => {
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage.setItem(KEYS.CART, JSON.stringify(cart));
+    } catch (e) {
+      console.error('Error saving cart:', e);
+    }
+  },
+  clearCart: () => {
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage.removeItem(KEYS.CART);
+    } catch (e) {
+      console.error('Error clearing cart:', e);
+    }
+  },
 
   // Reset to default seed
   resetDefaults: () => {

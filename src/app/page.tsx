@@ -33,11 +33,12 @@ export default function HomePage() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [completedOrder, setCompletedOrder] = useState<Order | null>(null);
 
-  // Load products and config on mount & listen to storage updates
+  // Load products, config and saved cart on mount & listen to storage updates
   useEffect(() => {
     const loadData = () => {
       setProducts(StorageService.getProducts());
       setConfig(StorageService.getConfig());
+      setCartItems(StorageService.getCart());
     };
     loadData();
 
@@ -75,16 +76,20 @@ export default function HomePage() {
     return products.filter((p) => p.isPromo && p.isActive && p.stock > 0);
   }, [products]);
 
-  // Cart actions
+  // Cart actions with persistent storage
   const handleAddToCart = (product: Product) => {
     setCartItems((prev) => {
       const existing = prev.find((item) => item.product.id === product.id);
+      let updated: CartItem[];
       if (existing) {
-        return prev.map((item) =>
+        updated = prev.map((item) =>
           item.product.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         );
+      } else {
+        updated = [...prev, { product, quantity: 1 }];
       }
-      return [...prev, { product, quantity: 1 }];
+      StorageService.saveCart(updated);
+      return updated;
     });
   };
 
@@ -93,16 +98,23 @@ export default function HomePage() {
       handleRemoveItem(productId);
       return;
     }
-    setCartItems((prev) =>
-      prev.map((item) => (item.product.id === productId ? { ...item, quantity } : item))
-    );
+    setCartItems((prev) => {
+      const updated = prev.map((item) => (item.product.id === productId ? { ...item, quantity } : item));
+      StorageService.saveCart(updated);
+      return updated;
+    });
   };
 
   const handleRemoveItem = (productId: string) => {
-    setCartItems((prev) => prev.filter((item) => item.product.id !== productId));
+    setCartItems((prev) => {
+      const updated = prev.filter((item) => item.product.id !== productId);
+      StorageService.saveCart(updated);
+      return updated;
+    });
   };
 
   const handleClearCart = () => {
+    StorageService.clearCart();
     setCartItems([]);
   };
 

@@ -219,19 +219,19 @@ export default function CartDrawer({
       />
 
       {/* Drawer */}
-      <div className="absolute inset-y-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between animate-in slide-in-from-right duration-300">
+      <div className="absolute inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10 w-full sm:w-auto">
+        <div className="w-full sm:w-screen sm:max-w-md bg-white shadow-2xl flex flex-col justify-between animate-in slide-in-from-right duration-300 overflow-x-hidden">
           {/* Drawer Header */}
-          <div className="p-4 sm:p-5 bg-gradient-to-r from-emerald-800 to-teal-900 text-white flex items-center justify-between border-b border-emerald-700/50">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
-                <ShoppingBag className="w-5 h-5 text-amber-300" />
+          <div className="p-3.5 sm:p-5 bg-gradient-to-r from-emerald-800 to-teal-900 text-white flex items-center justify-between border-b border-emerald-700/50 gap-2">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+                <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5 text-amber-300" />
               </div>
-              <div>
-                <h2 className="font-bold text-base sm:text-lg leading-tight">
+              <div className="min-w-0">
+                <h2 className="font-bold text-sm sm:text-lg leading-tight truncate">
                   {step === 'cart' ? 'Tu Canasta de Frescura' : 'Datos de Entrega'}
                 </h2>
-                <p className="text-xs text-emerald-200">
+                <p className="text-[11px] sm:text-xs text-emerald-200 truncate">
                   {cartItems.length} {cartItems.length === 1 ? 'producto' : 'productos'} seleccionados
                 </p>
               </div>
@@ -239,7 +239,8 @@ export default function CartDrawer({
 
             <button
               onClick={onClose}
-              className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-emerald-100 hover:text-white transition cursor-pointer"
+              className="p-1.5 sm:p-2 rounded-xl bg-white/10 hover:bg-white/20 text-emerald-100 hover:text-white transition cursor-pointer shrink-0"
+              aria-label="Cerrar canasta"
             >
               <X className="w-5 h-5" />
             </button>
@@ -314,20 +315,20 @@ export default function CartDrawer({
                     return (
                       <div
                         key={item.product.id}
-                        className="flex items-center gap-3 p-3 rounded-2xl bg-stone-50 border border-stone-200/80 hover:bg-white transition"
+                        className="flex items-center gap-2.5 p-2.5 sm:p-3 rounded-2xl bg-stone-50 border border-stone-200/80 hover:bg-white transition"
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={item.product.imageUrl}
                           alt={item.product.name}
-                          className="w-14 h-14 rounded-xl object-cover shrink-0 border border-stone-200"
+                          className="w-12 h-12 rounded-xl object-cover shrink-0 border border-stone-200"
                         />
 
-                        <div className="flex-1 min-w-0">
-                          <h4 className="font-bold text-stone-900 text-sm truncate">
+                        <div className="flex-1 min-w-0 pr-1">
+                          <h4 className="font-bold text-stone-900 text-xs sm:text-sm truncate">
                             {item.product.name}
                           </h4>
-                          <div className="text-xs text-stone-500">
+                          <div className="text-[11px] text-stone-500">
                             ${price.toLocaleString('es-CO')} / {item.product.unit}
                           </div>
                           <div className="text-xs font-black text-emerald-800 mt-0.5">
@@ -339,7 +340,7 @@ export default function CartDrawer({
                         <div className="flex items-center gap-1 bg-white border border-stone-200 rounded-xl p-1 shrink-0 shadow-xs">
                           <button
                             onClick={() => onUpdateQuantity(item.product.id, item.quantity - 1)}
-                            className="w-6 h-6 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-700 flex items-center justify-center cursor-pointer transition"
+                            className="w-6 h-6 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-700 flex items-center justify-center cursor-pointer transition active:scale-95"
                             aria-label="Disminuir"
                           >
                             <Minus className="w-3 h-3" />
@@ -349,7 +350,7 @@ export default function CartDrawer({
                           </span>
                           <button
                             onClick={() => onUpdateQuantity(item.product.id, item.quantity + 1)}
-                            className="w-6 h-6 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center cursor-pointer transition"
+                            className="w-6 h-6 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center cursor-pointer transition active:scale-95"
                             aria-label="Aumentar"
                           >
                             <Plus className="w-3 h-3" />
@@ -571,21 +572,21 @@ export default function CartDrawer({
             <div className="p-4 sm:p-5 bg-stone-50 border-t border-stone-200 space-y-3">
               {/* Cost breakdown */}
               <div className="space-y-1.5 text-xs text-stone-600">
-                <div className="flex justify-between">
+                <div className="flex justify-between items-center">
                   <span>Subtotal productos:</span>
                   <span className="font-semibold text-stone-900">${subtotal.toLocaleString('es-CO')}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>
+                <div className="flex justify-between items-center">
+                  <span className="truncate pr-2">
                     Domicilio ({customer.residentialZone}):
                   </span>
-                  <span className={`font-semibold ${deliveryFee === 0 ? 'text-emerald-600 font-bold' : 'text-stone-900'}`}>
+                  <span className={`font-semibold shrink-0 ${deliveryFee === 0 ? 'text-emerald-600 font-bold' : 'text-stone-900'}`}>
                     {deliveryFee === 0 ? 'GRATIS' : `$${deliveryFee.toLocaleString('es-CO')}`}
                   </span>
                 </div>
-                <div className="flex justify-between text-base font-black text-stone-900 pt-1.5 border-t border-stone-200">
+                <div className="flex justify-between items-center text-base font-black text-stone-900 pt-1.5 border-t border-stone-200">
                   <span>Total estimado:</span>
-                  <span className="text-emerald-800">${total.toLocaleString('es-CO')}</span>
+                  <span className="text-emerald-800 shrink-0">${total.toLocaleString('es-CO')}</span>
                 </div>
               </div>
 
