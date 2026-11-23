@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="sun" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <linearGradient id="mango" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
+  </defs>
+  <!-- Background with rounded corners -->
+  <rect width="512" height="512" rx="128" fill="url(#bg)" />
+  
+  <!-- Tropical Sun & Radiance (Luz) -->
+  <circle cx="256" cy="190" r="90" fill="url(#sun)" opacity="0.9" />
+  <circle cx="256" cy="190" r="115" fill="#fef08a" opacity="0.25" />
+
+  <!-- Fresh Plant Leaf / Sprout (Cosecha) -->
+  <path d="M 256 380 C 190 380 150 310 170 230 C 230 230 310 260 310 350 C 310 380 280 380 256 380 Z" fill="#22c55e" />
+  <path d="M 170 230 Q 250 310 256 380" stroke="#15803d" stroke-width="6" stroke-linecap="round" fill="none" />
+
+  <!-- Tropical Fruit Highlight (Mango / Naranja) -->
+  <circle cx="340" cy="270" r="45" fill="url(#mango)" />
+  <path d="M 340 225 C 345 210 360 210 365 215" stroke="#16a34a" stroke-width="5" stroke-linecap="round" fill="none" />
+
+  <!-- Star of Light / Sol de Cartagena -->
+  <path d="M 256 60 L 262 85 L 285 90 L 264 100 L 256 125 L 248 100 L 227 90 L 250 85 Z" fill="#ffffff" />
+</svg>
